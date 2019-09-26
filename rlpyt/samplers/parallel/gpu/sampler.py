@@ -106,5 +106,6 @@ def build_step_buffer(examples, B):
     step_bufs = {k: buffer_from_example(examples[k], B, share_memory=True)
         for k in ["observation", "action", "reward", "done", "agent_info"]}
     step_buffer_np = StepBuffer(**step_bufs)
+    step_buffer_np.observation[:] = examples["observation"]
     step_buffer_pyt = torchify_buffer(step_buffer_np)
     return step_buffer_pyt, step_buffer_np
